@@ -180,8 +180,8 @@ async function connectWallet() {
         } else {
           console.error("connectWallet: Error switching network:", switchError);
           alert("❌ กรุณาสลับไป Binance Smart Chain ด้วยตนเอง");
-            document.getElementById("walletAddress").innerText = `❌ การเชื่อมต่อล้มเหลว`; // แก้ไขตรงนี้
-            document.getElementById("walletAddress").classList.add("error"); // แก้ไขตรงนี้
+            document.getElementById("walletAddress").innerText = `❌ การเชื่อมต่อล้มเหลว`;
+            document.getElementById("walletAddress").classList.add("error");
           return;
         }
       }
@@ -368,7 +368,7 @@ async function buyToken() {
     const buyTx = await stakingContract.methods.buyAndStake(usdtInWei, minOut.toString()).send({ from: account });
     console.log("buyToken: Buy and Stake Transaction Hash:", buyTx.transactionHash);
 
-    document.getElementById("buyTokenStatus").innerText = "กำลังรอการยืนยันการซื้อ KJC...";
+    document.getElementById("buyTokenStatus"].innerText = "กำลังรอการยืนยันการซื้อ KJC...";
     const receipt = await web3.eth.getTransactionReceipt(buyTx.transactionHash);
 
     if (receipt && receipt.status) {
@@ -417,7 +417,7 @@ async function loadStakingInfo() {
     console.log("loadStakingInfo: Staking info loaded successfully.");
   } catch (e) {
     console.error("loadStakingInfo: Error loading stake info:", e);
-    document.getElementById("stakeAmount"].innerText = "❌ โหลดไม่สำเร็จ: " + (e.message || "Unknown error");
+    document.getElementById("stakeAmount").innerText = "❌ โหลดไม่สำเร็จ: " + (e.message || "Unknown error");
     document.getElementById("stakeAmount"].classList.add("error");
   }
 }
@@ -428,7 +428,7 @@ async function claimReward() {
     return;
   }
 
-  document.getElementById("claimStakeStatus").innerText = "กำลังดำเนินการเคลมรางวัล Stake...";
+  document.getElementById("claimStakeStatus"].innerText = "กำลังดำเนินการเคลมรางวัล Stake...";
   document.getElementById("claimStakeStatus"].classList.remove("error", "success");
 
   try {
@@ -497,7 +497,7 @@ async function loadReferralInfo() {
 
 async function claimReferralReward() {
   if (!stakingContract || !account) {
-    document.getElementById("referralClaimStatus"].innerText = "⚠️ กรุณาเชื่อมกระเป๋าก่อน";
+    document.getElementById("referralClaimStatus").innerText = "⚠️ กรุณาเชื่อมกระเป๋าก่อน";
     return;
   }
 
