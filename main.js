@@ -46,7 +46,6 @@ const ERC20_ABI_MINIMAL = [
 // Note: This variable is now sourced from config.js, or uses '0x38' as fallback.
 // The direct const declaration here was removed to avoid 'already been declared' error.
 // The value will be taken from window.BSC_CHAIN_ID if config.js provides it.
-// (No changes needed here from previous version, as the fix was in how it's used globally)
 
 
 // --- Helper Functions ---
@@ -181,8 +180,8 @@ async function connectWallet() {
         } else {
           console.error("connectWallet: Error switching network:", switchError);
           alert("❌ กรุณาสลับไป Binance Smart Chain ด้วยตนเอง");
-          document.getElementById("walletAddress").innerText = `❌ การเชื่อมต่อล้มเหลว`;
-          document.getElementById("walletAddress"].classList.add("error");
+            document.getElementById("walletAddress").innerText = `❌ การเชื่อมต่อล้มเหลว`; // แก้ไขตรงนี้
+            document.getElementById("walletAddress").classList.add("error"); // แก้ไขตรงนี้
           return;
         }
       }
@@ -204,12 +203,12 @@ async function connectWallet() {
         console.error("connectWallet: Critical: One or more contract addresses/ABIs from config.js are undefined.");
         alert("❌ การตั้งค่า Contract ไม่สมบูรณ์ กรุณาตรวจสอบ config.js และลำดับการโหลด script (ดู Console สำหรับรายละเอียด).");
         document.getElementById("walletAddress").innerText = `❌ การเชื่อมต่อล้มเหลว: config.js error`;
-        document.getElementById("walletAddress"].classList.add("error");
-        document.getElementById("walletAddress"].classList.remove("success");
+        document.getElementById("walletAddress").classList.add("error");
+        document.getElementById("walletAddress").classList.remove("success");
         return;
     }
 
-    // ใช้ตัวแปรจาก config.js โดยตรง
+    // ใช้ตัวแปรจาก config.js โดยตรง (ไม่ต้องใช้ window. นำหน้าแล้ว ถ้า config.js โหลดก่อน main.js ถูกต้อง)
     stakingContract = new web3.eth.Contract(stakingABI, contractAddress);
     routerContract = new web3.eth.Contract(ROUTER_ABI_MINIMAL, routerAddress); 
     usdtContract = new web3.eth.Contract(usdtABI, usdtAddress); 
@@ -228,9 +227,9 @@ async function connectWallet() {
   } catch (error) {
     console.error("❌ connectWallet: Uncaught error during connection process:", error);
     const errorMessage = getFriendlyErrorMessage(error);
-    alert("❌ การเชื่อมต่อกระเป๋าของล้มเหลว: " + errorMessage); // เปลี่ยนข้อความเป็น 'ของล้มเหลว' ให้ถูกต้อง
+    alert("❌ การเชื่อมต่อกระเป๋าของล้มเหลว: " + errorMessage); 
     document.getElementById("walletAddress").innerText = `❌ การเชื่อมต่อล้มเหลว`;
-    document.getElementById("walletAddress"].classList.add("error");
+    document.getElementById("walletAddress").classList.add("error");
   }
 }
 
@@ -369,7 +368,7 @@ async function buyToken() {
     const buyTx = await stakingContract.methods.buyAndStake(usdtInWei, minOut.toString()).send({ from: account });
     console.log("buyToken: Buy and Stake Transaction Hash:", buyTx.transactionHash);
 
-    document.getElementById("buyTokenStatus"].innerText = "กำลังรอการยืนยันการซื้อ KJC...";
+    document.getElementById("buyTokenStatus").innerText = "กำลังรอการยืนยันการซื้อ KJC...";
     const receipt = await web3.eth.getTransactionReceipt(buyTx.transactionHash);
 
     if (receipt && receipt.status) {
@@ -418,7 +417,7 @@ async function loadStakingInfo() {
     console.log("loadStakingInfo: Staking info loaded successfully.");
   } catch (e) {
     console.error("loadStakingInfo: Error loading stake info:", e);
-    document.getElementById("stakeAmount").innerText = "❌ โหลดไม่สำเร็จ: " + (e.message || "Unknown error");
+    document.getElementById("stakeAmount"].innerText = "❌ โหลดไม่สำเร็จ: " + (e.message || "Unknown error");
     document.getElementById("stakeAmount"].classList.add("error");
   }
 }
@@ -443,7 +442,7 @@ async function claimReward() {
       const tx = await stakingContract.methods.claimStakingReward().send({ from: account });
       console.log("claimReward: Tx Hash:", tx.transactionHash);
       
-      document.getElementById("claimStakeStatus"].innerText = "กำลังรอการยืนยันการเคลมรางวัล Stake...";
+      document.getElementById("claimStakeStatus").innerText = "กำลังรอการยืนยันการเคลมรางวัล Stake...";
       const receipt = await web3.eth.getTransactionReceipt(tx.transactionHash);
 
       if (receipt && receipt.status) {
@@ -498,7 +497,7 @@ async function loadReferralInfo() {
 
 async function claimReferralReward() {
   if (!stakingContract || !account) {
-    document.getElementById("referralClaimStatus").innerText = "⚠️ กรุณาเชื่อมกระเป๋าก่อน";
+    document.getElementById("referralClaimStatus"].innerText = "⚠️ กรุณาเชื่อมกระเป๋าก่อน";
     return;
   }
 
